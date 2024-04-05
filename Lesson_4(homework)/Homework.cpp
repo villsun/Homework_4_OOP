@@ -1,4 +1,5 @@
 ﻿#include <iostream>
+#include <string>
 
 using namespace std;
 
@@ -76,13 +77,21 @@ public:
 
 	int operator - (Date date_2)
 	{
-		int difference_date = this->day - date_2.day;
-		if (difference_date < 0)
+		const int MAX_DAY = 30;
+		int difference_day = (this->day) - (date_2.day);
+		if (difference_day < 0)
 		{
-			difference_date = -difference_date;
+			difference_day = -difference_day;
+		}
+		int difference_month = (this->month) - (date_2.month);
+		if (difference_month < 0)
+		{
+			difference_month = -difference_month;
 		}
 
-		return difference_date;
+		int result = (difference_month * MAX_DAY) + difference_day;
+
+		return result;
 	}
 
 	/*Date operator + (int day)
@@ -129,7 +138,7 @@ public:
 		while (this->day > MAX_DAY)
 		{
 			this->day -= MAX_DAY;
-			this-month++;
+			this->month++;
 			if (this -> month > MAX_MONTH)
 			{
 				this->month = 1;
@@ -139,8 +148,74 @@ public:
 
 		return *this;
 	}
+};
 
+class Intersection_Lines
+{
+private:
+	string str_1;
+public:
+	Intersection_Lines()
+	{
+		str_1 = "None";
+	}
+	Intersection_Lines(Intersection_Lines &old_lines)
+	{
+		this->str_1 = old_lines.str_1;;
+	}
+	void Show_Lines()
+	{
+		cout << str_1 << endl;
+	}
 
+	string Get_Line()
+	{
+		return str_1;
+	}
+
+	void Set_Line(string str_1)
+	{
+		this->str_1 = str_1;
+	}
+
+	void Add_Line()
+	{
+		cout << "Enter line:\n";
+		cin >> str_1;
+	}
+
+	char* operator * (Intersection_Lines line_2)
+	{
+		int counter = 0;
+		for (int i = 0; i < this->str_1.size(); i++)
+		{
+			for (int j = 0; j < line_2.str_1.size(); j++)
+			{
+				if (this->str_1[i] == line_2.str_1[j])
+				{
+					counter++;
+					break;
+				}
+			}
+		}
+
+		char* str_intersection = new char[counter + 1];
+		counter = 0;
+		for (int i = 0; i < this->str_1.size(); i++)
+		{
+			for (int j = 0; j < line_2.str_1.size(); j++)
+			{
+				if (this->str_1[i] == line_2.str_1[j])
+				{
+					str_intersection[counter++] = this->str_1[i];
+					break;
+				}
+			}
+		}
+
+		str_intersection[counter] = '\0';
+		return str_intersection;
+	}
 };
 
 int main()
@@ -151,7 +226,7 @@ int main()
 	d.Add_Date();
 	d.Show_Date();*/
 
-	/*Date d_1(1, 12, 12), d_2(3, 4, 5), d_3;*/
+	/*Date d_1(10, 1, 12), d_2(23, 3, 5), d_3;*/
 
 	/*d_3 = d_1;
 	d_3.Show_Date();*/
@@ -166,6 +241,17 @@ int main()
 	/*d_1 + 100;
 
 	d_1.Show_Date();*/
+
+	// Завдання 2
+
+	Intersection_Lines str_1, str_2;
+
+	str_1.Set_Line("Yoopa");
+	str_2.Set_Line("Alrolo");
+
+	char* str_intersection = str_1 * str_2;
+	cout << str_intersection;
+	delete[] str_intersection;
 
 	return 0;
 }
